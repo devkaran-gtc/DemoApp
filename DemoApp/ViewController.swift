@@ -27,7 +27,7 @@ class ViewController: UIViewController {
                 label.text = configurationTitle as! String
             }
             label.textColor = .white
-            label.textAlignment = .center
+            label.textAlignment = .justified
             return label
         }()
         view.addSubview(titleLabel)
