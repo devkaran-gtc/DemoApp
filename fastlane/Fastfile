@@ -28,10 +28,13 @@ platform :ios do
         provisioningProfiles: {
           #GTCSYS-DEV
           #GTC Distribution new
-          "com.gtcsys.DemoApp.beta" => "GTCSYS-DEV"
+          "com.gtcsys.CIApp.dev" => "GTCSYS-DEV"
         }
       }
     )
+    # Push changes
+    remote_branch = "/CICDApp/commits/main"
+    release_notes = "FastlaneSample v1.0.0 Release\nTest build from automated CI-CD"
     upload_to_testflight
   end
   
@@ -41,10 +44,9 @@ platform :ios do
     # sync_code_signing
     # sync_code_signing(type: "appstore")
     # sync_code_signing(type: "appstore")
-    
+    increment_build_number(xcodeproj: “DemoApp.xcodeproj”)
     build_app(scheme: "Beta")
-    upload_to_testflight(skip_waiting_for_build_processing: true)
-    
+    upload_to_app_store
     # upload_to_testflight
   end
   
