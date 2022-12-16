@@ -1,0 +1,13 @@
+//
+//  Release_DemoApp.xcconfig
+//  DemoApp
+//
+//  Created by Devkaran's Mac mini on 14/12/22.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+API_URL = https:/$()/release.api.com
+PRODUCT_BUNDLE_IDENTIFIER = com.gtcsys.CIApp
+PRODUCT_NAME = CIApp
+BACK_COLOR = green

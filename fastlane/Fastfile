@@ -1,0 +1,72 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:ios)
+
+platform :ios do
+  desc "Creates Development build"
+  lane :dev do
+    # sync_code_signing(type: "appstore")
+    # build_app(scheme: "Dev")
+
+    # build_app(xcodeproj: “DemoApp.xcodeproj”, scheme: “Dev”)
+    build_app(
+      scheme: "Dev",
+      export_options: {
+        provisioningProfiles: {
+          #GTCSYS-DEV
+          #GTC Distribution new
+          "com.gtcsys.DemoApp.beta" => "GTCSYS-DEV"
+        }
+      }
+    )
+    upload_to_testflight
+  end
+  
+  desc "Creates Beta build"
+  lane :beta do
+    # build_app(xcodeproj: “DemoApp.xcodeproj”, scheme: “Beta”)
+    # sync_code_signing
+    # sync_code_signing(type: "appstore")
+    # sync_code_signing(type: "appstore")
+    
+    build_app(scheme: "Beta")
+    upload_to_testflight(skip_waiting_for_build_processing: true)
+    
+    # upload_to_testflight
+  end
+  
+  desc "Creates QA build"
+  lane :qa do
+    # build_app(workspace: “movieListing.xcworkspace”, scheme: “movieListing — Prod”)
+    run_tests(devices: [“iPhone 14”, “iPhone 8”],
+    scheme: “QA”,
+    skip_build: true)
+  end
+  
+  desc "Creates Prod build"
+  lane :release do
+    increment_build_number(xcodeproj: “DemoApp.xcodeproj”)
+    build_app(
+        configuration: "Release_DemoApp",
+        scheme: "DemoApp")
+      # codesigning_identity: "Certificate name, if you want to override it as well"
+
+    # build_app(scheme: "DemoApp")
+    # build_app(scheme: "DemoApp")
+    # build_app(xcodeproj: “DemoApp.xcodeproj”, scheme: “DemoApp”)
+    upload_to_testflight
+  end
+end
